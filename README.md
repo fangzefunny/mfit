@@ -36,4 +36,4 @@ Optimization-based model fitting utilities with closed-form likelihoods.
 
 Sampling-based model fitting utilities with likelihoods estimated via inverse binomial sampling .
 
-- **`mfit.ibs.ibs_ll`**: unbiased log-likelihood estimation via IBS [van Opheusden, Acerbi & Ma, 2020](https://doi.org/10.1371/journal.pcbi.1008483)
+- **`mfit.ibs.ibs_ll`**: unbiased log-likelihood estimation via IBS [van Opheusden et al., 2020](https://doi.org/10.1371/journal.pcbi.1008483)
