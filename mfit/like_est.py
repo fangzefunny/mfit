@@ -18,7 +18,7 @@ def ibs_ll(
     responses: np.ndarray,
     design: Optional[np.ndarray] = None,
     num_reps: int = 1,
-    max_iter: int = 100_000,
+    max_iter: int = 2000,
     nll_threshold: float = np.inf,
 ) -> float:
     """
@@ -41,6 +41,7 @@ def ibs_ll(
         num_reps: number of independent IBS estimates to average.
         max_iter: cap on samples per trial (safety against near-zero
                   probability events); when hit, K is clamped here.
+                  Default value is 2000, p = 0.00028
         nll_threshold: if the running NLL exceeds this value mid-trial,
                        abort the current rep early and return. During
                        optimization, pass your current-best NLL here to

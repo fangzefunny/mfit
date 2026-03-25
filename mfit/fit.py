@@ -36,7 +36,7 @@ def fit_hier(
     Args:
         pool: Parallel computing pool (e.g., `multiprocessing.Pool`, `pathos` pool).
         data: Dataset container; expected to be a dict mapping subject IDs to dataframes/arrays.
-        model: Model instance/class providing `.agent` and `.fit(...)` (see your `model.py`).
+        model: Model instance/class providing `.agent` and `.fit_single(...)` (see your `model.py`).
         fname: Output filename used to save results.
         n_fits: Number of random restarts (fits) per subject in the E-step.
         seed: Random seed used in subject-level fitting.
@@ -89,7 +89,7 @@ def fit_hier(
         fit_info = {}
         for i, sub_idx in enumerate(sub_lst):
             start_time = time.time()
-            sub_fit = model.fit(
+            sub_fit = model.fit_single(
                 data[sub_idx],
                 "map",
                 "BFGS",
@@ -105,7 +105,8 @@ def fit_hier(
             if verbose:
                 interval = end_time - start_time
                 print(f"SUB:{sub_idx}, progress: {(i * 100 / n_sub):2f}%")
-                print(f"\tNLL:{-sub_fit['log_like']:.4f}, using: {interval:.2f}")
+                log_like = sub_fit["log_like"]
+                print(f"\tNLL:{-log_like:.4f}, using: {interval:.2f}")
 
         # transform the parameter to Gaussian space,
         # using link function
@@ -161,7 +162,7 @@ def fit_hier(
 #         Maximum likelihoood Estimation         #
 # -----------------------------------------------#
 
-def fit(
+def fit_single(
     loss_fn: Any,
     data: Any,
     bnds: Any,
@@ -265,6 +266,11 @@ def fit(
         fit_res["H_inv"] = result.hess_inv
 
     return fit_res
+
+
+def fit(*args: Any, **kwargs: Any):
+    """Alias for `fit_single` (likelihood-based parameter fitting)."""
+    return fit_single(*args, **kwargs)
 
 
 # ------------------------------------------------------#

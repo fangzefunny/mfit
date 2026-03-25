@@ -1,4 +1,4 @@
 """mfit package."""
 
-__all__ = ["cf", "ibs"]
+__all__ = ["fit", "like_est"]
 
